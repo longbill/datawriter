@@ -1,10 +1,10 @@
 
 class DataWriter {
 
-	constructor(maxBufferSize, maxDelay, bulkWriteFunction, onError) {
+	constructor(maxBufferSize, maxDelay, batchWriteFunction, onError) {
 		this.maxBufferSize = maxBufferSize;
 		this.maxDelay = maxDelay;
-		this.bulkWriteFunction = bulkWriteFunction;
+		this.batchWriteFunction = batchWriteFunction;
 		this.buffer = [];
 		this.timeout = null;
 		this.onError = onError;
@@ -16,20 +16,25 @@ class DataWriter {
 	}
 
 	checkWrite() {
-		if (this.timeout) clearTimeout(this.timeout);
+		if (!this.timeout) {
+			this.timeout = setTimeout(this.batchWrite.bind(this), this.maxDelay);
+		}
 		if (this.buffer.length >= this.maxBufferSize) {
-			this.bulkWrite();
-		} else {
-			this.timeout = setTimeout(this.bulkWrite.bind(this), this.maxDelay);
+			this.batchWrite();
 		}
 	}
 
-	async bulkWrite() {
+	async batchWrite() {
+		if (this.timeout) {
+			clearTimeout(this.timeout);
+			this.timeout = null;
+		}
+		
 		if (this.buffer.length === 0) return;
 		let arr = [...this.buffer];
 		this.buffer = [];
 		try {
-			await this.bulkWriteFunction(arr);
+			await this.batchWriteFunction(arr);
 		} catch (err) {
 			let error = new Error(`DataWriter write error: ${err ? err.message : 'unknown error'}`);
 			error.data = arr;
