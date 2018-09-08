@@ -1,0 +1,23 @@
+{
+  "name": "datawriter",
+  "version": "1.0.0",
+  "description": "cache and write",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/longbill/datawriter.git"
+  },
+  "keywords": [
+    "write",
+    "cache"
+  ],
+  "author": "Chunlong",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/longbill/datawriter/issues"
+  },
+  "homepage": "https://github.com/longbill/datawriter#readme"
+}
