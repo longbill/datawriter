@@ -1,6 +1,8 @@
 DataWriter
 ===========
 
+DataWriter is a generic utility to be used as part of your application's data writing layer to reduce write operations via batching and caching. Inspired by DataLoader.
+
 If you need to write something in very high frequency and you want to reduce system load or network connections, this is the best utility for you.
 
 ## Install
