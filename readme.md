@@ -31,7 +31,48 @@ The write command call. `args` will be treated as a data row. So you can pass an
 
 ## Example
 
+```js
+const DataWriter = require('datawriter');
+
+const update = new DataWriter(3, 1000, updates => {
+	console.log('bach write:', updates.map(args => args[0]));
+}, console.error);
+
+let i = 0;
+let timer = setInterval(() => {
+	console.log('write:', i);
+	update.write(i++);
+}, 300);
+
+setTimeout(() => {
+	clearInterval(timer);
+}, 3500);
+
+
+
+/*
+output will be:
+
+write: 0
+write: 1
+write: 2
+bach write: [ 0, 1, 2 ]
+write: 3
+write: 4
+write: 5
+bach write: [ 3, 4, 5 ]
+write: 6
+write: 7
+write: 8
+bach write: [ 6, 7, 8 ]
+write: 9
+write: 10
+bach write: [ 9, 10 ]
+*/
 ```
+
+
+```js
 const DataWriter = require('datawriter');
 const fs = require('fs');
 
@@ -58,4 +99,5 @@ a.log content will be:
 
 */
 ```
+
 
